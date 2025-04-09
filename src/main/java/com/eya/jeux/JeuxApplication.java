@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
 
 import com.eya.jeux.entities.Jeu;
 import com.eya.jeux.service.JeuService;
@@ -14,7 +15,7 @@ import com.eya.jeux.service.JeuService;
 public class JeuxApplication implements CommandLineRunner{
 	
 	@Autowired
-	JeuService jeuService;
+	private RepositoryRestConfiguration repositoryRestConfiguration;
 	
 
 	public static void main(String[] args) {
@@ -23,10 +24,8 @@ public class JeuxApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		jeuService.saveJeu(new Jeu("Bioschok", 29.00, new Date()));
-		jeuService.saveJeu(new Jeu("Ori", 150.00, new Date()));
-		jeuService.saveJeu(new Jeu("Sonic Dash", 163.00, new Date()));
-		
+		//jeuService.saveJeu(new Jeu("Bioschok", 29.00, new Date()));
+		repositoryRestConfiguration.exposeIdsFor(Jeu.class);
 	}
 
 }

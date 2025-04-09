@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import com.eya.jeux.entities.Jeu;
+import com.eya.jeux.entities.Platforme;
 import com.eya.jeux.repos.JeuRepository;
 
 @Service
@@ -51,6 +52,41 @@ public class JeuServiceImpl implements JeuService{
 	@Override
 	public Page<Jeu> getAllJeuxParPage(int page, int size) {
 		return jeuRepository.findAll(PageRequest.of(page, size));
+	}
+
+	@Override
+	public List<Jeu> findByNomJeu(String nom) {
+		return jeuRepository.findByNomJeu(nom);
+	}
+
+	@Override
+	public List<Jeu> findByNomJeuContains(String nom) {
+		return jeuRepository.findByNomJeuContains(nom);
+	}
+
+	@Override
+	public List<Jeu> findByNomPrix(String nom, Double prix) {
+		return jeuRepository.findByNomPrix(nom, prix);
+	}
+
+	@Override
+	public List<Jeu> findByPlatforme(Platforme platforme) {
+		return jeuRepository.findByPlatforme(platforme);
+	}
+
+	@Override
+	public List<Jeu> findByPlatformeIdPlat(Long id) {
+		return jeuRepository.findByPlatformeIdPlat(id);
+	}
+
+	@Override
+	public List<Jeu> findByOrderByNomJeuAsc() {
+		return jeuRepository.findByOrderByNomJeuAsc();
+	}
+
+	@Override
+	public List<Jeu> trierJeuxNomsPrix() {
+		return jeuRepository.trierJeuxNomsPrix();
 	}
 
 }
