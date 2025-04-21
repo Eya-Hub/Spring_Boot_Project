@@ -8,11 +8,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import com.eya.jeux.entities.Jeu;
+import com.eya.jeux.entities.Platforme;
 import com.eya.jeux.service.JeuService;
+
+import jakarta.validation.Valid;
 
 @Controller
 public class JeuController {
@@ -32,22 +36,34 @@ public class JeuController {
 	}
 
 	@RequestMapping("/showCreate")
-	public String showCreate() {
-		return "createJeu";
+	public String showCreate(ModelMap modelMap) {
+		List<Platforme> plats = jeuService.getAllPlatformes();
+		modelMap.addAttribute("jeu", new Jeu());
+		modelMap.addAttribute("mode", "new");
+		modelMap.addAttribute("platformes", plats);
+		return "formJeu";
 	}
 
 	@RequestMapping("/saveJeu")
-	public String saveJeu(@ModelAttribute("jeu") Jeu jeu, @RequestParam("date") String date, ModelMap modelMap)
-			throws ParseException {
-		// conversion de la date
-		SimpleDateFormat dateformat = new SimpleDateFormat("yyyy-MM-dd");
-		Date dateSortieJeu = dateformat.parse(String.valueOf(date));
-		jeu.setDateSortieJeu(dateSortieJeu);
-		Jeu saveJeu = jeuService.saveJeu(jeu);
-		String msg = "jeu enregistré avec Id " + saveJeu.getIdJeu();
-		modelMap.addAttribute("msg", msg);
-		return "createJeu";
-	}
+	public String saveJeu(@Valid Jeu jeu, BindingResult bindingResult,
+			@RequestParam (name="page",defaultValue = "0") int page,
+			@RequestParam (name="size", defaultValue = "3") int size) {
+		int currentPage;
+		boolean isNew = false;
+		if (bindingResult.hasErrors()) return "createJeu";
+		if (jeu.getIdJeu()==null) //ajout
+			isNew=true;
+		jeuService.saveJeu(jeu);
+		if (isNew) //ajout
+		{
+		Page<Jeu> games = jeuService.getAllJeuxParPage(page, size);
+		currentPage = games.getTotalPages()-1;
+		}
+		else //modif
+		currentPage=page;
+		//return "formJeu";
+		return ("redirect:/ListeJeux?page="+currentPage+"&size="+size);
+	}     
 
 	@RequestMapping("/supprimerJeu")
 	public String supprimerJeu(@RequestParam("id") Long id, ModelMap modelMap,
@@ -63,10 +79,17 @@ public class JeuController {
 	}
 
 	@RequestMapping("/modifierJeu")
-	public String editerJeu(@RequestParam("id") Long id, ModelMap modelMap) {
+	public String editerJeu(@RequestParam("id") Long id, ModelMap modelMap,
+			@RequestParam (name="page",defaultValue = "0") int page,
+			@RequestParam (name="size", defaultValue = "3") int size) {
 		Jeu j = jeuService.getJeu(id);
+		List<Platforme> plats = jeuService.getAllPlatformes();
 		modelMap.addAttribute("jeu", j);
-		return "editerJeu";
+		modelMap.addAttribute("mode", "edit");
+		modelMap.addAttribute("platformes", plats);
+		modelMap.addAttribute("page", page);
+		modelMap.addAttribute("size", size);
+		return "formJeu";
 	}
 
 	@RequestMapping("/updateJeu")

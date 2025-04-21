@@ -2,11 +2,20 @@ package com.eya.jeux.entities;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 
 @Entity
 public class Jeu {
@@ -14,8 +23,18 @@ public class Jeu {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long idJeu;
+	
+	@NotNull
+	@Size (min = 3,max = 30)
 	private String nomJeu;
+	
+	@Min(value = 5)
+	@Max(value = 10000)
 	private Double prixJeu;
+	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@PastOrPresent
 	private Date dateSortieJeu;
 
 	@ManyToOne

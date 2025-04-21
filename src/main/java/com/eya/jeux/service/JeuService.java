@@ -21,6 +21,6 @@ public interface JeuService {
 	List<Jeu> findByPlatformeIdPlat(Long id);
 	List<Jeu> findByOrderByNomJeuAsc();
 	List<Jeu> trierJeuxNomsPrix();
-	
+	List<Platforme> getAllPlatformes();
 	Page<Jeu> getAllJeuxParPage(int page, int size);
 }

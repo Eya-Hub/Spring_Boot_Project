@@ -10,12 +10,16 @@ import org.springframework.stereotype.Service;
 import com.eya.jeux.entities.Jeu;
 import com.eya.jeux.entities.Platforme;
 import com.eya.jeux.repos.JeuRepository;
+import com.eya.jeux.repos.PlatformeRepository;
 
 @Service
 public class JeuServiceImpl implements JeuService{
 	
 	@Autowired 
 	JeuRepository jeuRepository;
+	
+	@Autowired
+	PlatformeRepository platformeRepository;
 
 	@Override
 	public Jeu saveJeu(Jeu j) {
@@ -87,6 +91,11 @@ public class JeuServiceImpl implements JeuService{
 	@Override
 	public List<Jeu> trierJeuxNomsPrix() {
 		return jeuRepository.trierJeuxNomsPrix();
+	}
+	
+	@Override
+	public List<Platforme> getAllPlatformes() {
+	return platformeRepository.findAll();
 	}
 
 }

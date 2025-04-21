@@ -29,31 +29,4 @@ public class Platforme {
 	private List<Jeu> jeux;
 	
 	
-	public Long getIdPlat() {
-		return idPlat;
-	}
-	public void setIdPlat(Long idPlat) {
-		this.idPlat = idPlat;
-	}
-	public String getNomPlat() {
-		return nomPlat;
-	}
-	public void setNomPlat(String nomPlat) {
-		this.nomPlat = nomPlat;
-	}
-	public String getDescriptionPlat() {
-		return descriptionPlat;
-	}
-	public void setDescriptionPlat(String descriptionPlat) {
-		this.descriptionPlat = descriptionPlat;
-	}
-	
-	public List<Jeu> getJeux() {
-		return jeux;
-	}
-	public void setJeux(List<Jeu> jeux) {
-		this.jeux = jeux;
-	}
-	
-	
 }
