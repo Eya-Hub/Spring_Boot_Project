@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.eya.jeux.dto.JeuDTO;
 import com.eya.jeux.entities.Jeu;
 import com.eya.jeux.service.JeuService;
 
@@ -22,23 +23,23 @@ public class JeuRESTController {
 	JeuService jeuService;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Jeu> getAllJeux() {
+	public List<JeuDTO> getAllJeux() {
 	return jeuService.getAllJeux();
 	}
 	
 	@RequestMapping(value="/{id}",method = RequestMethod.GET)
-	public Jeu getJeuById(@PathVariable("id") Long id) { 
+	public JeuDTO getJeuById(@PathVariable("id") Long id) { 
 		return jeuService.getJeu(id);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST)
-	public Jeu createJeu(@RequestBody Jeu jeu) {
-	return jeuService.saveJeu(jeu);
+	public JeuDTO createJeu(@RequestBody JeuDTO jeuDTO) {
+	return jeuService.saveJeu(jeuDTO);
 	}
 	
 	@RequestMapping(method = RequestMethod.PUT)
-	public Jeu updateJeu(@RequestBody Jeu jeu) {
-	return jeuService.updateJeu(jeu);
+	public JeuDTO updateJeu(@RequestBody JeuDTO jeuDTO) {
+	return jeuService.updateJeu(jeuDTO);
 	}
 	
 	@RequestMapping(value="/{id}",method = RequestMethod.DELETE)

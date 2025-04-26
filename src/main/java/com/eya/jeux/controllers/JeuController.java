@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.eya.jeux.dto.JeuDTO;
 import com.eya.jeux.entities.Jeu;
 import com.eya.jeux.entities.Platforme;
 import com.eya.jeux.service.JeuService;
@@ -57,7 +59,7 @@ public class JeuController {
 			@RequestParam (name="size", defaultValue = "3") int size) {
 		int currentPage;
 		boolean isNew = false;
-		if (bindingResult.hasErrors()) return "createJeu";
+		if (bindingResult.hasErrors()) return "formJeu";
 		if (jeu.getIdJeu()==null) //ajout
 			isNew=true;
 		jeuService.saveJeu(jeu);
@@ -89,7 +91,7 @@ public class JeuController {
 	public String editerJeu(@RequestParam("id") Long id, ModelMap modelMap,
 			@RequestParam (name="page",defaultValue = "0") int page,
 			@RequestParam (name="size", defaultValue = "3") int size) {
-		Jeu j = jeuService.getJeu(id);
+		JeuDTO j = jeuService.getJeu(id);
 		List<Platforme> plats = jeuService.getAllPlatformes();
 		modelMap.addAttribute("jeu", j);
 		modelMap.addAttribute("mode", "edit");
@@ -107,7 +109,7 @@ public class JeuController {
 		Date dateSortieJeu = dateformat.parse(String.valueOf(date));
 		jeu.setDateSortieJeu(dateSortieJeu);
 		jeuService.updateJeu(jeu);
-		List<Jeu> games = jeuService.getAllJeux();
+		List<JeuDTO> games = jeuService.getAllJeux();
 		modelMap.addAttribute("jeux", games);
 		return "listeJeux";
 	}
